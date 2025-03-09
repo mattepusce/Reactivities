@@ -32,4 +32,20 @@ app.UseHttpsRedirection();
 
 app.MapControllers();
 
+// using serve per liberare la memoria una volta usato il servizio
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+try
+{
+    // applica le migrazioni e semina i dati
+    var context = services.GetRequiredService<Persistence.AppDbContext>();
+    await context.Database.MigrateAsync();
+    await Persistence.DbInitializer.SeedData(context);
+}
+catch (Exception ex)
+{
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An error occurred during migration");
+}
+
 app.Run();
