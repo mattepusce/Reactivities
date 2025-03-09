@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    internal class Activity
+    public class Activity
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public required string Title { get; set; }
