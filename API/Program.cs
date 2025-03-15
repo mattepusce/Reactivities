@@ -22,7 +22,15 @@ builder.Services.AddDbContext<Persistence.AppDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+// abilita il CORS, ovvero permet di fare richieste da un dominio diverso da quello del server
+builder.Services.AddCors();
+
 var app = builder.Build();
+
+// abilita il CORS per tutti i metodi e header, e per i domini specificati
+app.UseCors(options => options.AllowAnyHeader().AllowAnyMethod()
+    .WithOrigins("http://localhost:3000", "https://localhost:3000")
+);
 
 // Configure the HTTP request pipeline.
 
