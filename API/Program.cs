@@ -10,6 +10,7 @@
 // aggiungere al progetto Application il riferimento al progetto Domain e Persistence
 // aggiungere al progetto Persistence il riferimento al progetto Domain
 
+using Application.Activities.Queries;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +25,11 @@ builder.Services.AddDbContext<Persistence.AppDbContext>(
 
 // abilita il CORS, ovvero permet di fare richieste da un dominio diverso da quello del server
 builder.Services.AddCors();
+
+// aggiunge MediatR per la gestione delle richieste
+builder.Services.AddMediatR(
+    x => x.RegisterServicesFromAssemblyContaining<GetActivityList.Handler>()
+);
 
 var app = builder.Build();
 
