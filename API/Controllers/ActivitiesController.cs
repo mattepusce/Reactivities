@@ -7,7 +7,7 @@ using Persistence;
 
 namespace API.Controllers
 {
-    public class ActivitiesController(AppDbContext context, IMediator mediator) : BaseApiController
+    public class ActivitiesController : BaseApiController
     {
         [HttpGet]
         public async Task<ActionResult<List<Activity>>> GetActivities()
@@ -16,17 +16,14 @@ namespace API.Controllers
             //return res;
 
             // utilizzo di MediatR per ottenere la lista delle attività
-            var res = await mediator.Send(new GetActivityList.Query());
+            var res = await Mediator.Send(new GetActivityList.Query());
             return res;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Activity>> GetActivityDetail(Guid id)
         {
-            var activity = await context.Activities.FindAsync(id);
-
-            if (activity == null) return NotFound();
-
+            var activity = await Mediator.Send(new GetActivityDetails.Query { Id = id });
             return activity;
         }
 
