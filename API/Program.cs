@@ -11,6 +11,7 @@
 // aggiungere al progetto Persistence il riferimento al progetto Domain
 
 using Application.Activities.Queries;
+using Application.Core;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +31,9 @@ builder.Services.AddCors();
 builder.Services.AddMediatR(
     x => x.RegisterServicesFromAssemblyContaining<GetActivityList.Handler>()
 );
+
+// aggiunta AutoMapper al progetto
+builder.Services.AddAutoMapper(typeof (MappingProfiles).Assembly);
 
 var app = builder.Build();
 
