@@ -7,6 +7,8 @@ function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
 
   useEffect(() => {
+    // chiamata axios per recuperare le attività
+    // axios converte automaticamente la risposta in JSON
     axios
       .get<Activity[]>("https://localhost:5001/api/activities")
       .then((response) => setActivities(response.data));
